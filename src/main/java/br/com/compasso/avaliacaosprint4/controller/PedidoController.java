@@ -48,7 +48,7 @@ public class PedidoController {
 	@PostMapping
 	@Transactional
 	@CacheEvict(value = "listaDePedidos", allEntries = true)
-	public ResponseEntity<PedidoDto> listarPedidos(
+	public ResponseEntity<PedidoDto> cadastrar(
 			@Valid @RequestBody PedidoForm pedidoForm,
 			UriComponentsBuilder uriBuilder) {
 		

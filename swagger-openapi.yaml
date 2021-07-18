@@ -1,0 +1,725 @@
+openapi: 3.0.1
+info:
+  title: "API Avaliação Sprint 4"
+  description: "API para listar pessoas, produtos e pedidos de um sistema."
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    name: "Alexys Santiago"
+    email: "alexys.fernande_BOLS@compasso.com.br"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0"
+  version: "1.0"
+servers:
+- url: "http://localhost:8080"
+  description: "API do servidor local"
+tags:
+- name: AutenticacaoController
+  description: "Autenticar credenciais"
+- name: PedidoController
+  description: "Pedidos do sistema"
+- name: PessoaController
+  description: "Pessoas do sistema"
+- name: ProdutoController
+  description: "Produtos do sistema"
+paths:
+  /auth:
+    post:
+      tags:
+      - AutenticacaoController
+      summary: "autenticar"
+      requestBody:
+        description: "form"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginForm"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                type: object
+              example:
+                - "token": "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBUEkgZGEgU3ByaW50IDQiLCJzdWIiOiIxIiwiaWF0IjoxNjI2NjI3MjE0LCJleHAiOjE2MjY3MTM2MTR9.u81EHBNXM5L3HBsZwkKAELB6hb7H0cuK8GDpud4Zmgo"
+                  "tipo": "Bearer"
+        400:
+          description: "Bad Request"
+          content: {}
+  /pessoa:
+    get:
+      tags:
+      - PessoaController
+      summary: "listar"
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PessoaDto"
+    post:
+      tags:
+      - PessoaController
+      summary: "cadastrar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      requestBody:
+        description: "form"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PessoaForm"
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/PessoaDto"
+        400:
+          description: "Bad Request"
+          content: {}
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/pessoa"
+  /pessoa/{id}:
+    get:
+      tags:
+      - PessoaController
+      summary: "detalhar"
+      parameters:
+      - name: id
+        in: path
+        description: "CPF da pessoa"
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/PessoaDto"
+        404:
+          description: "Not Found"
+          content: {}
+    put:
+      tags:
+      - PessoaController
+      summary: "atualizar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "CPF da pessoa"
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: "pessoaForm"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AtualizacaoPessoaForm"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/PessoaDto"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+        404:
+          description: "Not Found"
+          content: {}
+    delete:
+      tags:
+      - PessoaController
+      summary: "remover"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "CPF da pessoa"
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                type: object
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/pessoa/01898745028"
+        404:
+          description: "Not Found"
+          content: {}
+  /protected/pedido:
+    get:
+      tags:
+      - PedidoController
+      summary: "listar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PedidoDto"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+    post:
+      tags:
+      - PedidoController
+      summary: "cadastrar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      requestBody:
+        description: "pedidoForm"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PedidoForm"
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PedidoDto"
+        400:
+          description: "Bad Request"
+          content: {}
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/pessoa/01898745028"
+  /protected/pedido/{id}:
+    get:
+      tags:
+      - PedidoController
+      summary: "detalhar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "id do pedido"
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/PedidoDto"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+        404:
+          description: "Not Found"
+          content: {}
+    put:
+      tags:
+      - PedidoController
+      summary: "atualizar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "id do pedido"
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: "pedidoForm"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PedidoForm"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/PedidoDto"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+        404:
+          description: "Not Found"
+          content: {}
+    delete:
+      tags:
+      - PedidoController
+      summary: "remover"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "id do pedido"
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                type: object
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+        404:
+          description: "Not Found"
+          content: {}
+  /protected/produto:
+    get:
+      tags:
+      - ProdutoController
+      summary: "listar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ProdutoDto"
+        403:
+          description: "Forbidden"
+          content: {}
+    post:
+      tags:
+      - ProdutoController
+      summary: "cadastrar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      requestBody:
+        description: "form"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProdutoForm"
+        required: true
+      responses:
+        201:
+          description: "Created"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ProdutoDto"
+        400:
+          description: "Bad Request"
+          content: {}
+        403:
+          description: "Forbidden"
+          content: {}
+  /protected/produto/{id}:
+    get:
+      tags:
+      - ProdutoController
+      summary: "detalhar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "id do produto"
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ProdutoDto"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+        404:
+          description: "Not Found"
+          content: {}
+    put:
+      tags:
+      - ProdutoController
+      summary: "atualizar"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "id do produto"
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: "produtoForm"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProdutoForm"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          content:
+            "*/*":
+              schema:
+                $ref: "#/components/schemas/ProdutoDto"
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+        404:
+          description: "Not Found"
+          content: {}
+    delete:
+      tags:
+      - ProdutoController
+      summary: "remover"
+      parameters:
+      - name: "Authorization"
+        in: header
+        description: "Header para token JWT"
+        schema:
+          type: string
+      - name: id
+        in: path
+        description: "id do produto"
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            "*/*":
+              schema:
+                type: object
+        403:
+          description: "Forbidden"
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/pedido"
+        404:
+          description: "Not Found"
+          content: {}
+components:
+  schemas:
+    AtualizacaoPessoaForm:
+      title: "AtualizacaoPessoaForm"
+      type: object
+      properties:
+        nome:
+          type: string
+        salario:
+          type: number
+        sexo:
+          type: string
+        endereco:
+          type: array
+          items:
+            $ref: "#/components/schemas/Endereco"
+      example:
+        nome: "Paulo Silveira"
+        salario: 4500
+        sexo: "M"
+        endereco:
+          - pais: "Brasil"
+            estado: "São Paulo"
+            cidade: "São Paulo"
+            cep: "16200106"
+            rua: "Pedro Álvares Cabral"
+    Endereco:
+      title: "Endereco"
+      type: object
+      properties:
+        pais:
+          type: string
+        estado:
+          type: string
+        cidade:
+          type: string
+        cep:
+          type: string
+        rua:
+          type: string
+    LoginForm:
+      title: "LoginForm"
+      type: object
+      properties:
+        email:
+          type: string
+        senha:
+          type: string
+      example:
+        email: "estagiario@compasso.com"
+        senha: "123456"
+    PedidoDto:
+      title: "PedidoDto"
+      type: object
+      properties:
+        total:
+          type: number
+        dataCriacao:
+          type: string
+        produtoDto:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProdutoDto"
+      example:
+        total: 22.5
+        dataCriacao: "2021-07-17 14:03:47"
+        produtoDto:
+          - id: 1
+            descricao: "Arroz"
+            precoUnitario: 10
+          - id: 2
+            descricao: "Feijão"
+            precoUnitario: 5
+          - id: 3
+            descricao: "Açúcar"
+            precoUnitario: 3.5
+          - id: 4
+            descricao: "Lentilha"
+            precoUnitario: 4
+    PedidoForm:
+      title: "PedidoForm"
+      type: object
+      properties:
+        idProduto:
+          type: array
+          items:
+            type: integer
+            format: int64
+      example:
+        idProduto:
+          - 1
+          - 2
+          - 3
+          - 4
+    PessoaDto:
+      title: "PessoaDto"
+      type: object
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        enderecoDto:
+          type: array
+          items:
+            $ref: "#/components/schemas/Endereco"
+      example:
+        nome: "Paulo Silveira"
+        cpf: "10187152829"
+        enderecoDto:
+          - cidade: "São Paulo"
+            rua: "Pedro Álvares Cabral"
+    PessoaForm:
+      title: "PessoaForm"
+      type: object
+      properties:
+        nome:
+          type: string
+        cpf:
+          type: string
+        salario:
+          type: number
+        sexo:
+          type: string
+        endereco:
+          type: array
+          items:
+            $ref: "#/components/schemas/Endereco"
+      example:
+        nome: "Paulo Silveira"
+        cpf: "10187152829"
+        salario: 4500
+        sexo: "M"
+        endereco:
+          - pais: "Brasil"
+            estado: "São Paulo"
+            cidade: "São Paulo"
+            cep: "16200106"
+            rua: "Pedro Álvares Cabral"
+    ProdutoDto:
+      title: "ProdutoDto"
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        descricao:
+          type: string
+        precoUnitario:
+          type: number
+      example:
+        id: 7
+        descricao: "Coxinha"
+        precoUnitario: 3.99
+    ProdutoForm:
+      title: "ProdutoForm"
+      type: object
+      properties:
+        descricao:
+          type: string
+        precoUnitario:
+          type: number
+      example:
+        descricao: "Coxinha"
+        precoUnitario: 3.99

@@ -3,6 +3,7 @@ package br.com.compasso.avaliacaosprint4.config.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -18,6 +19,7 @@ import br.com.compasso.avaliacaosprint4.repository.UsuarioRepository;
 
 @EnableWebSecurity
 @Configuration
+@Profile("prod")
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -47,10 +49,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers(HttpMethod.GET, "/pessoa").permitAll()
-			.antMatchers(HttpMethod.GET, "/protected/produto").permitAll()
-			.antMatchers(HttpMethod.GET, "/protected/pedido").permitAll()
-			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+			.antMatchers(HttpMethod.GET, "/pessoa/*").permitAll()
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
+			.antMatchers(HttpMethod.GET, "/actuator/**").hasRole("MODERADOR")
 			.antMatchers(HttpMethod.DELETE, "/pessoa/*").hasRole("MODERADOR")
 			.antMatchers(HttpMethod.DELETE, "/protected/produto/*").hasRole("MODERADOR")
 			.antMatchers(HttpMethod.DELETE, "/protected/pedido/*").hasRole("MODERADOR")

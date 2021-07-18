@@ -6,6 +6,10 @@ VALUES ('Estagiario', 'estagiario@compasso.com', '$2a$10$sFKmbxbG4ryhwPNx/l3pgOJ
 INSERT INTO PERFIL(id, nome) 
 VALUES (1, 'ROLE_ESTAGIARIO'),
 	   (2, 'ROLE_MODERADOR');
+	   
+INSERT INTO USUARIO_PERFIS(usuario_id, perfis_id) 
+VALUES (1, 1),
+	   (2, 2);
 
 INSERT INTO PESSOA(nome, cpf, salario, sexo)
 VALUES

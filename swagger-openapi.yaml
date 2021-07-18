@@ -160,7 +160,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/protected/pedido"
+                  "path": "/pessoa/10187152829"
         404:
           description: "Not Found"
           content: {}
@@ -196,7 +196,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/pessoa/01898745028"
+                  "path": "/pessoa/10187152829"
         404:
           description: "Not Found"
           content: {}
@@ -266,7 +266,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/pessoa/01898745028"
+                  "path": "/protected/pedido"
   /protected/pedido/{id}:
     get:
       tags:
@@ -301,7 +301,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/protected/pedido"
+                  "path": "/protected/pedido/1"
         404:
           description: "Not Found"
           content: {}
@@ -345,7 +345,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/protected/pedido"
+                  "path": "/protected/pedido/1"
         404:
           description: "Not Found"
           content: {}
@@ -382,7 +382,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/protected/pedido"
+                  "path": "/protected/pedido/1"
         404:
           description: "Not Found"
           content: {}
@@ -408,7 +408,14 @@ paths:
                   $ref: "#/components/schemas/ProdutoDto"
         403:
           description: "Forbidden"
-          content: {}
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/produto"
     post:
       tags:
       - ProdutoController
@@ -438,7 +445,14 @@ paths:
           content: {}
         403:
           description: "Forbidden"
-          content: {}
+          content:
+            application/json:
+              example:
+                - "timestamp": "2021-07-18T00:04:26.475+00:00"
+                  "status": 403
+                  "error": "Forbidden"
+                  "message": "Access Denied"
+                  "path": "/protected/produto"
   /protected/produto/{id}:
     get:
       tags:
@@ -473,7 +487,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/protected/pedido"
+                  "path": "/protected/produto/1"
         404:
           description: "Not Found"
           content: {}
@@ -517,7 +531,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/protected/pedido"
+                  "path": "/protected/produto/1"
         404:
           description: "Not Found"
           content: {}
@@ -554,7 +568,7 @@ paths:
                   "status": 403
                   "error": "Forbidden"
                   "message": "Access Denied"
-                  "path": "/protected/pedido"
+                  "path": "/protected/produto/1"
         404:
           description: "Not Found"
           content: {}

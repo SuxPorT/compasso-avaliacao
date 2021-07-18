@@ -192,4 +192,5 @@ Como parte do trabalho e como uma forma de documentar a API, crie a documentaç�
   - Para testar o ambiente de produção (autenticação ativada) com o <code>Profile("prod")</code>, é necessário configurar os argumentos da VM com o comando <code>-Dspring.profiles.active=prod</code>
   - Para o ambiente de desenvolvimento (autenticação desabilitada) com o <code>Profile("dev")</code>, usa-se a configuração <code>-Dspring.profiles.active=dev</code>.
 - Para deletar os dados dos endpoints, é nécessário possuir a autenticação de moderador.
+- Para consultar a documentação Swagger automatizada do SpringFox, basta acessar o seguinte endereço (considerando que a aplicação esteja utilizando a porta 8080): <code>http://localhost:8080/swagger-ui.html</code>.
 - *Obs.: as senhas criptografadas dos usuários criados para testes são **"123456"***.

@@ -185,7 +185,7 @@ Como parte do trabalho e como uma forma de documentar a API, crie a documentaç�
 - **[Eclipse IDE for Java EE Developers](https://www.eclipse.org/downloads/packages/release/kepler/sr2/eclipse-ide-java-ee-developers)**: ferramentas para desenvolvedores Java criando aplicativos Java EE e Web, incluindo Java IDE, ferramentas para Java EE, JPA, JSF, Mylyn, EGit e outros.
 - **[Postman](https://www.postman.com/)**: plataforma de colaboração para desenvolvimento de API, utilizado para requisições do tipo GET/POST/PUT/DELETE.
 - **[Git](https://git-scm.com/)**: sistema de controle de versão distribuído gratuito e de código aberto.
-- **[Swagger](https://swagger.io/)**: simplifica o desenvolvimento de API, ajudando a projetar e documentar APIs. A documentação criada para esse projeto se encontra em **[swagger-openapi.yml](/swagger-openapi.yml)**.
+- **[Swagger](https://swagger.io/)**: simplifica o desenvolvimento de API, ajudando a projetar e documentar APIs. A documentação criada para esse projeto se encontra em **[swagger-openapi.yaml](/swagger-openapi.yaml)**.
 
 ## Configurações
 - Foi utilizado profiles para simular ambientes de produção e de desenvolvimento.
